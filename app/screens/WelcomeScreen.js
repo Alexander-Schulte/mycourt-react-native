@@ -1,11 +1,10 @@
 import React from "react";
 import colors from "../config/colors";
-import { ImageBackground, StyleSheet, View, Text, Image } from "react-native";
-import AppText from "../components/AppText";
+import { ImageBackground, StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppButton from "../components/AppButton";
 
-function WelcomeScreen(props) {
+function WelcomeScreen({ navigation }) {
   return (
     <ImageBackground
       blurRadius={4}
@@ -18,8 +17,12 @@ function WelcomeScreen(props) {
         <Text style={styles.tagline}>Find your next court</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <AppButton title="Login" onPress={() => console.log("Tapped")} />
-        <AppButton title="Register" color="secondary" />
+        <AppButton title="Login" onPress={() => navigation.navigate("Login")} />
+        <AppButton
+          title="Register"
+          color="secondary"
+          onPress={() => navigation.navigate("Register")}
+        />
       </View>
     </ImageBackground>
   );
