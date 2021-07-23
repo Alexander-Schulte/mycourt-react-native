@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
+import { useState } from "react/cjs/react.development";
+
 import * as Yup from "yup";
 
 import CategoryPickerItem from "../components/CategoryPickerItem";
@@ -15,8 +17,7 @@ import colors from "../config/colors";
 import useLocation from "../hooks/useLocation";
 
 const validationSchema = Yup.object().shape({
-  title: Yup.string().required().min(1).label("Title"),
-  title: Yup.string().required().min(1).label("Address"),
+  address: Yup.string().required().min(1).label("Address"),
   price: Yup.number().required().min(1).max(10000).label("Price"),
   description: Yup.string().label("Description"),
   category: Yup.object().required().nullable().label("Category"),
@@ -64,18 +65,17 @@ function ListingEditScreen() {
     <Screen style={styles.container}>
       <AppForm
         initialValues={{
-          title: "",
+          address: "",
           price: "",
           description: "",
           category: null,
           images: [],
-          address: { location },
+          userLocation: "",
         }}
-        onSubmit={(values) => console.log(location)}
+        onSubmit={(values) => console.log(values, location)}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
-        {/* <AppFormField maxLength={255} name="title" placeholder="Title" /> */}
         <AppFormField maxLength={100} name="address" placeholder="Address" />
         <AppFormField
           keyboardType="numeric"

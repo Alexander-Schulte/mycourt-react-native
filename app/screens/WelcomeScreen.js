@@ -3,6 +3,7 @@ import colors from "../config/colors";
 import { ImageBackground, StyleSheet, View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AppButton from "../components/AppButton";
+import routes from "../navigation/routes";
 
 function WelcomeScreen({ navigation }) {
   return (
@@ -17,11 +18,14 @@ function WelcomeScreen({ navigation }) {
         <Text style={styles.tagline}>Find your next court</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <AppButton title="Login" onPress={() => navigation.navigate("Login")} />
+        <AppButton
+          title="Login"
+          onPress={() => navigation.navigate(routes.LOGIN)}
+        />
         <AppButton
           title="Register"
           color="secondary"
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate(routes.REGISTER)}
         />
       </View>
     </ImageBackground>
