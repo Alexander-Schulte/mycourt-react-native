@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { useState } from "react/cjs/react.development";
 
 import * as Yup from "yup";
 
@@ -59,8 +58,6 @@ const categories = [
 ];
 
 function ListingEditScreen() {
-  const location = useLocation();
-
   return (
     <Screen style={styles.container}>
       <AppForm
@@ -72,7 +69,7 @@ function ListingEditScreen() {
           images: [],
           userLocation: "",
         }}
-        onSubmit={(values) => console.log(values, location)}
+        onSubmit={(values) => console.log(values)}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
