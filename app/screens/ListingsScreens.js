@@ -1,10 +1,11 @@
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 import Card from "../components/Card";
 import colors from "../config/colors";
 import Screen from "../components/Screen";
 import routes from "../navigation/routes";
+import Icon from "../components/Icon";
 
 const listings = [
   {
@@ -26,12 +27,15 @@ function ListingsScreen({ navigation }) {
         data={listings}
         keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
-          <Card
-            title={"Hi"}
-            subTitle={"$" + item.price}
-            // image={item.image}
-            onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
-          />
+          <View>
+            <Icon style={styles.icon} name={item.categories} />
+            <Card
+              title={"Hi"}
+              subTitle={"$" + item.price}
+              // image={item.image}
+              onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
+            />
+          </View>
         )}
       />
     </Screen>
@@ -42,6 +46,9 @@ const styles = StyleSheet.create({
   screen: {
     padding: 20,
     backgroundColor: colors.light,
+  },
+  icon: {
+    marginTop: 50,
   },
 });
 
