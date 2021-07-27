@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 import Card from "../components/Card";
@@ -11,13 +11,14 @@ import Icon from "../components/Icon";
 function ListingsScreen({ navigation }) {
   const [listings, setListings] = useState([]);
 
+  useEffect(() => {
+    loadListings();
+  }, []);
+
   const loadListings = async () => {
     const response = await listingsApi.getListings();
     setListings(response.data);
   };
-  useEffect(() => {
-    loadListings;
-  }, []);
 
   return (
     <Screen style={styles.screen}>
