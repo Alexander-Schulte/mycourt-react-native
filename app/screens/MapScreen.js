@@ -13,7 +13,6 @@ const validationSchema = Yup.object().shape({
 
 function MapScreen() {
   const location = useLocation();
-  console.log(location);
 
   return (
     <Screen style={styles.container}>
