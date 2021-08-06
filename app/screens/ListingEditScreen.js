@@ -59,12 +59,12 @@ const categories = [
 ];
 
 function ListingEditScreen() {
-  const location = useLocation();
+  // const location = useLocation();
 
   const handleSubmit = async (listing) => {
-    console.log(listing.images);
-    const result = await listingsApi.addListing({ ...listing, location });
-    if (!result.ok) return alert("Could not save the listing");
+    const result = await listingsApi.addListing(listing);
+    if (!result.ok)
+      return console.log(result.problem), alert("Could not save the listing");
     alert("Success");
   };
 
