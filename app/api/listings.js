@@ -4,7 +4,7 @@ const endpoint = "/listings";
 
 const getListings = () => apiClient.get(endpoint);
 
-export const addListing = (listing) => {
+export const addListing = (listing, onUploadProgress) => {
   const data = new FormData();
   data.append("address", listing.address);
   data.append("price", listing.price);
@@ -23,7 +23,10 @@ export const addListing = (listing) => {
 
   console.log(data);
 
-  return apiClient.post(endpoint, data);
+  return apiClient.post(endpoint, data, {
+    onUploadProgress: (progress) =>
+      onUploadProgress(progress.loaded / progress.total),
+  });
 };
 
 export default {
