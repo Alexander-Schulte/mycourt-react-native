@@ -32,12 +32,14 @@ function ListingsScreen({ navigation }) {
         keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
           <View>
-            <Icon style={styles.icon} name={item.categories} />
+            <Icon name="basketball" />
             <Card
+              style={styles.card}
               title={item.title}
               subTitle={"$" + item.price}
               imageUrl={item.images[0].url}
               onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
+              thumbnailUrl={item.images[0].thumbnailUrl}
             />
           </View>
         )}
@@ -50,9 +52,6 @@ const styles = StyleSheet.create({
   screen: {
     padding: 20,
     backgroundColor: colors.light,
-  },
-  icon: {
-    marginTop: 50,
   },
 });
 
