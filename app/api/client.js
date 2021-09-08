@@ -2,7 +2,7 @@ import { create } from "apisauce";
 import cache from "../utility/cache";
 
 const apiClient = create({
-  baseURL: "http://5.147.113.80:9000/api",
+  baseURL: "https://find-my-court.com",
 });
 
 const get = apiClient.get;

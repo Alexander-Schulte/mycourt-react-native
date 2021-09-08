@@ -1,8 +1,9 @@
 import client from "./client";
 
-const endpoint = "/listings";
+const getEndpoint = "/service.php";
+const postEndpoint = "/postData.php";
 
-const getListings = () => client.get(endpoint);
+const getListings = () => client.get(getEndpoint);
 
 export const addListing = (listing, onUploadProgress) => {
   const data = new FormData();
@@ -21,7 +22,7 @@ export const addListing = (listing, onUploadProgress) => {
   if (listing.location)
     data.append("location", JSON.stringify(listing.location));
 
-  return client.post(endpoint, data, {
+  return client.post(postEndpoint, data, {
     onUploadProgress: (progress) =>
       onUploadProgress(progress.loaded / progress.total),
   });
