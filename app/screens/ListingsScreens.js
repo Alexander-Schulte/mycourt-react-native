@@ -29,7 +29,7 @@ function ListingsScreen({ navigation }) {
       <ActivityIndicator animating={getListingsApi.loading} />
       <FlatList
         data={getListingsApi.data}
-        keyExtractor={(listing) => listing.id}
+        keyExtractor={(listing) => listing.location}
         renderItem={({ item }) => (
           <View>
             <Icon name="basketball" />
@@ -37,7 +37,7 @@ function ListingsScreen({ navigation }) {
               style={styles.card}
               title={item.title}
               subTitle={"$" + item.price}
-              imageUrl={item.images}
+              imageUrl={item.previewImage}
               onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
               thumbnailUrl={item.images}
             />

@@ -13,16 +13,18 @@ import colors from "../config/colors";
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import Screen from "../components/Screen";
 import FormImagePicker from "../components/forms/FormImagePicker";
+import StarRating from "../components/forms/StarRating";
 import listingsApi from "../api/listings";
 import useLocation from "../hooks/useLocation";
 import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
+  rating: Yup.number().required().label("Rating"),
   price: Yup.number().required().min(1).max(10000).label("Price"),
   description: Yup.string().label("Description"),
   category: Yup.object().required().nullable().label("Category"),
-  images: Yup.array(),
+  images: Yup.array().max(3),
 });
 
 const categories = [
@@ -113,15 +115,17 @@ function ListingEditScreen() {
       <AppForm
         initialValues={{
           title: "",
+          rating: "",
           price: "",
           description: "",
           category: null,
-          images: "",
+          images: [],
         }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
+        <StarRating />
         <AppFormField maxLength={255} name="title" placeholder="Title" />
         <AppFormField
           keyboardType="numeric"
