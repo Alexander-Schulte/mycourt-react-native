@@ -30,6 +30,7 @@ export const addListing = (listing, onUploadProgress) => {
 
   const data = new FormData();
   data.append("title", listing.title);
+  data.append("rating", listing.rating);
   data.append("price", listing.price);
   data.append("categoryId", listing.category.value);
   data.append("description", listing.description);

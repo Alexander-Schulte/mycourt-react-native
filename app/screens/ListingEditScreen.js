@@ -20,7 +20,7 @@ import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
-  rating: Yup.number().required().label("Rating"),
+  stars: Yup.number().required(),
   price: Yup.number().required().min(1).max(10000).label("Price"),
   description: Yup.string().label("Description"),
   category: Yup.object().required().nullable().label("Category"),
@@ -115,7 +115,7 @@ function ListingEditScreen() {
       <AppForm
         initialValues={{
           title: "",
-          rating: "",
+          stars: null,
           price: "",
           description: "",
           category: null,
@@ -125,7 +125,7 @@ function ListingEditScreen() {
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
-        <StarRating />
+        <StarRating name="stars" placeholder="StarRating" />
         <AppFormField maxLength={255} name="title" placeholder="Title" />
         <AppFormField
           keyboardType="numeric"
