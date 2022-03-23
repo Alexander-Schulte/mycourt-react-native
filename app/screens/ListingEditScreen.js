@@ -1,91 +1,144 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 
 import * as Yup from "yup";
 
-import CategoryPickerItem from "../components/CategoryPickerItem";
 import {
   AppForm,
   AppFormField,
   AppFormPicker,
   SubmitButton,
 } from "../components/forms";
-import FormImagePicker from "../components/forms/FormImagePicker";
-import Screen from "../components/Screen";
 import colors from "../config/colors";
+import CategoryPickerItem from "../components/CategoryPickerItem";
+import Screen from "../components/Screen";
+import FormImagePicker from "../components/forms/FormImagePicker";
+import StarRating from "../components/forms/StarRating";
+import listingsApi from "../api/listings";
 import useLocation from "../hooks/useLocation";
+import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
-  address: Yup.string().required().min(1).label("Address"),
+  title: Yup.string().required().min(1).label("Title"),
+  stars: Yup.number().required(),
   price: Yup.number().required().min(1).max(10000).label("Price"),
   description: Yup.string().label("Description"),
   category: Yup.object().required().nullable().label("Category"),
-  images: Yup.array(),
+  images: Yup.array().max(3),
 });
 
 const categories = [
   {
-    label: "Basketball",
+    backgroundColor: "#fc5c65",
+    icon: "floor-lamp",
+    label: "Furniture",
     value: 1,
-    backgroundColor: "orange",
-    icon: "basketball",
   },
   {
-    label: "Volleyball",
+    backgroundColor: "#fd9644",
+    icon: "car",
+    label: "Cars",
     value: 2,
-    backgroundColor: colors.secondary,
-    icon: "volleyball",
   },
-  { label: "Tennis", value: 3, backgroundColor: colors.medium, icon: "tennis" },
   {
-    label: "Football",
+    backgroundColor: "#fed330",
+    icon: "camera",
+    label: "Cameras",
+    value: 3,
+  },
+  {
+    backgroundColor: "#26de81",
+    icon: "cards",
+    label: "Games",
     value: 4,
-    backgroundColor: "limegreen",
-    icon: "football",
   },
   {
-    label: "Badminton",
+    backgroundColor: "#2bcbba",
+    icon: "shoe-heel",
+    label: "Clothing",
     value: 5,
-    backgroundColor: "green",
-    icon: "badminton",
   },
   {
-    label: "Soccer",
+    backgroundColor: "#45aaf2",
+    icon: "basketball",
+    label: "Sports",
     value: 6,
-    backgroundColor: "tomato",
-    icon: "soccer",
+  },
+  {
+    backgroundColor: "#4b7bec",
+    icon: "headphones",
+    label: "Movies & Music",
+    value: 7,
+  },
+  {
+    backgroundColor: "#a55eea",
+    icon: "book-open-variant",
+    label: "Books",
+    value: 8,
+  },
+  {
+    backgroundColor: "#778ca3",
+    icon: "application",
+    label: "Other",
+    value: 9,
   },
 ];
 
 function ListingEditScreen() {
+  const location = useLocation();
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const handleSubmit = async (listing, { resetForm }) => {
+    setProgress(0);
+    setUploadVisible(true);
+    const result = await listingsApi.addListing(
+      { ...listing, location },
+      (progress) => setProgress(progress)
+    );
+
+    if (!result.ok) {
+      setUploadVisible(false);
+      return alert("Could not save the listing");
+    }
+
+    resetForm();
+  };
+
   return (
     <Screen style={styles.container}>
+      <UploadScreen
+        onDone={() => setUploadVisible(false)}
+        progress={progress}
+        visible={uploadVisible}
+      />
       <AppForm
         initialValues={{
-          address: "",
+          title: "",
+          stars: null,
           price: "",
           description: "",
           category: null,
           images: [],
-          userLocation: "",
         }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
-        <AppFormField maxLength={100} name="address" placeholder="Address" />
+        <StarRating name="stars" placeholder="StarRating" />
+        <AppFormField maxLength={255} name="title" placeholder="Title" />
         <AppFormField
           keyboardType="numeric"
           maxLength={8}
           name="price"
-          width={120}
           placeholder="Price"
+          width={120}
         />
         <AppFormPicker
           items={categories}
+          name="category"
           numberOfColumns={3}
           PickerItemComponent={CategoryPickerItem}
-          name="category"
           placeholder="Category"
           width="50%"
         />
